@@ -17,7 +17,8 @@ renamed_and_casted as (
         {{ dbt_utils.generate_surrogate_key([
             'bikeid', 
             'starttime', 
-            'start_station_id'
+            'start_station_id',
+            'stoptime'
         ]) }} as trip_id,
 
         -- Timestamps
