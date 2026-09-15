@@ -1,0 +1,18 @@
+Nombre de las tablase en el yaml qué estándar usar
+
+Run te crea la tabla.
+
+
+build dbt model -> en el models seleccionado, ejecuta tanto sql como yaml
+
+el dbt proyect -> de todo el proyecto
+
+build downstream -> Árbol pa abajo
+
+Build Upstream -> Árbol pa arriba
+
+Run dbt model -> Sólo ejecuta el sql
+
+Clean dbt Project -> Se usa sólo a veces con fallos raros.
+
+Execute dbt -> ves la query y resultados, NO genera la tabla, sólo en tu local.

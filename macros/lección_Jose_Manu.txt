@@ -1,0 +1,23 @@
+sistemas satélite.
+
+sugerimos implementar.
+
+solución a cómo implementar.
+
+
+data warehouse. está integrado. sistema satélite: coge segmentos de datos para lanzar campañas publicitarias.
+
+sistemas satélite: algo que necesita necesariamente comunicarse con la solución de datos.
+
+no es simplemente un consumidor. es un sistema que necesita integrarse mejor con el data warehouse.
+
+en una campaña publicitaria 
+
+
+bd analítica que sirve como operacional para el sistema satélite.
+
+un crm por ejemplo
+
+en transacciones
+
+en campaña publicitaria

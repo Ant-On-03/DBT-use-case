@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_citibike__trips_enriched
+    description: "Intermediate model that calculates trip distance and rider age."
+    columns:
+      - name: rider_age_at_trip
+        description: "The age of the rider at the time the trip was taken."
+        tests:
+          # Ensure we don't have time travelers or bad data (e.g., age 150)
+          - accepted_range:
+              min_value: 16
+              max_value: 100
+              # accepted_range requires the dbt_expectations or dbt_utils package, 
+              # or you can write a custom generic test.
+
+      - name: trip_distance_meters
+        description: "The straight-line spatial distance between the start and end stations in meters."
+        tests:
+          - not_null:
+              # We only expect this to be not null if we have both station IDs
+              config:
+                where: "start_station_id is not null and end_station_id is not null"

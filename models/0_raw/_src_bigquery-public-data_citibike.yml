@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bigquery-public-data_citibike
+    database: bigquery-public-data
+    schema: new_york_citibike
+    description: "Raw public dataset for NYC Citi Bike trips and stations."
+    tables:
+      - name: citibike_stations
+        description: "Raw station status and metadata."      
+      - name: citibike_trips
+        description: "Raw historical trip records."

@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_bigquery-public-data_citibike__stations
+    description: "Staging model for Citi Bike stations. Cleans metadata and locations."
+    columns:
+      - name: station_id
+        description: "Primary key for the station."
+        tests:
+          - unique
+          - not_null
+
+      - name: station_name
+        description: "Public name of the station."
+        tests:
+          - not_null
+
+      - name: station_lat
+        description: "Latitude coordinate of the station."
+        tests:
+          - not_null

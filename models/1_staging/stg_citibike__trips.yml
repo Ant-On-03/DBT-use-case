@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: stg_bigquery-public-data_citibike__trips
+    description: "Staging model for Citi Bike trips. Cleans types and removes invalid rides."
+    columns:
+      - name: trip_id
+        description: "Surrogate key generated from bike_id, start_time, and start_station_id."
+        tests:
+          - unique
+          - not_null
+
+      - name: started_at
+        description: "Timestamp when the trip started."
+        tests:
+          - not_null
+
+      - name: trip_duration_seconds
+        description: "Duration of the trip in seconds. Must be strictly positive."
+        tests:
+          - not_null
+
+      - name: start_station_id
+        description: "ID of the station where the trip started."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_citibike__stations')
+              field: station_id
+
+      - name: end_station_id
+        description: "ID of the station where the trip ended."
+        tests:
+          - relationships:
+              to: ref('stg_citibike__stations')
+              field: station_id
+
+      - name: rider_type
+        description: "The type of rider account."
+        tests:
+          - accepted_values:
+              values: ['Subscriber', 'Customer']
+              quote: true
