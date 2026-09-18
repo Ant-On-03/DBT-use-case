@@ -8,7 +8,17 @@
 with 
 
 source as (
-    select * from {{ source('bigquery-public-data_citibike', 'citibike_trips') }}
+    select * 
+    from {{ source('bigquery-public-data_citibike', 'citibike_trips') }}
+),
+
+filtered_source as (
+    select *
+    from source
+    where bikeid is not null
+      and starttime is not null
+      and start_station_id is not null
+      and stoptime is not null
 ),
 
 renamed_and_casted as (
@@ -16,7 +26,7 @@ renamed_and_casted as (
         -- Primary Key Generation: Hashing unique composite fields
         {{ dbt_utils.generate_surrogate_key([
             'bikeid', 
-            'starttime', 
+            'starttime',
             'start_station_id',
             'stoptime'
         ]) }} as trip_id,
@@ -29,12 +39,11 @@ renamed_and_casted as (
         cast(tripduration as int64) as trip_duration_seconds,
 
         -- Foreign Keys & Station Info
-        -- Null handling: Coalescing string 'NULL' or empty values to actual SQL nulls if needed
         cast(start_station_id as string) as start_station_id,
         cast(start_station_name as string) as start_station_name,
         cast(start_station_latitude as float64) as start_station_lat,
         cast(start_station_longitude as float64) as start_station_lon,
-        
+
         cast(end_station_id as string) as end_station_id,
         cast(end_station_name as string) as end_station_name,
         cast(end_station_latitude as float64) as end_station_lat,
@@ -42,20 +51,19 @@ renamed_and_casted as (
 
         -- Rider Profile Attributes
         cast(bikeid as string) as bike_id,
-        cast(usertype as string) as rider_type, -- e.g., 'Subscriber' or 'Customer'
+        cast(usertype as string) as rider_type,
         cast(birth_year as int64) as rider_birth_year,
         cast(gender as string) as rider_gender
-        
-    from source
+
+    from filtered_source
 ),
 
 filtered as (
     select *
     from renamed_and_casted
-    -- Data Quality Rules: Remove systemic errors from the raw data
     where trip_duration_seconds > 0
       and started_at is not null
-      and start_station_id is not null
 )
 
-select * from filtered
+select * 
+from filtered
